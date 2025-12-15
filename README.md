@@ -31,24 +31,18 @@ That's it! The app will be running with sample library data.
 
 ## Features
 
-- View all periodical/newspaper records in a sortable table
+- View all periodical/newspaper records in chronological order (newest first)
 - Clean, intuitive interface with color-coded badges
 - Status tracking (Received/Not Received)
 - Mobile-friendly responsive design
 - SQLite database for reliable data storage
-
-### Planned Features (In Development)
-- Add new records via web form
-- Edit existing records
-- Delete records
-- Export data to CSV
 
 ## Tech Stack
 
 - **Backend:** Python 3.10 + Flask
 - **Database:** SQLite3
 - **Frontend:** HTML5 (Jinja2 templates) + CSS3
-- **Export:** CSV (planned)
+- **Export:** CSV
 
 ## Data Model
 
@@ -153,6 +147,7 @@ If this were to be developed into a production system, the following features wo
 - **Barcode Scanning:** Mobile barcode scanning for quick item identification
 - **Reports & Analytics:** Delivery statistics, vendor performance metrics
 - **Integration:** Connect with library ILS (Integrated Library System)
+- **Column Sorting:** Click column headers to sort by any field
 
 ## Limitations
 
