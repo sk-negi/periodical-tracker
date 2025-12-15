@@ -11,7 +11,7 @@ def add_sample_data():
         ('Newspaper', 'The Hindu', 'Hindu Group', None, '2024-12-14', 'Received', 'Priya Sharma', None),
         ('Newspaper', 'Times of India', 'Times Group', None, '2024-12-14', 'Received', 'Rajesh Kumar', None),
         ('Periodical', 'Nature Magazine', 'Springer Nature', 'Vol. 624, Issue 7992', '2024-12-13', 'Received', 'Priya Sharma', 'Cover slightly damaged'),
-        ('Periodical', 'The Economist', 'The Economist Group', 'December 9th 2024', '2024-12-12', 'Not Received', 'Anjali Verma', 'Vendor notified of delay'),
+        ('Periodical', 'The Economist', 'The Economist Group', 'December 9th 2024', None, 'Not Received', 'Anjali Verma', 'Vendor notified of delay'),
         ('Newspaper', 'Indian Express', 'Express Group', None, '2024-12-15', 'Received', 'Rajesh Kumar', None),
         ('Periodical', 'Library Trends', 'Johns Hopkins University Press', 'Vol. 72, No. 2', '2024-12-10', 'Received', 'Anjali Verma', None),
     ]

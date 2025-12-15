@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Periodical Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Periodical Tracker</h1>
+            <p>Library Newspaper & Periodical Receipt Management</p>
+        </header>
+
+        <nav>
+            <a href="/" class="btn btn-primary">View All</a>
+            <a href="#" class="btn btn-success">Add New Record</a>
+            <a href="#" class="btn btn-info">Export to CSV</a>
+        </nav>
+
+        <main>
+            <h2>All Records ({{ periodicals|length }})</h2>
+            
+            {% if periodicals %}
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Vendor</th>
+                            <th>Issue/Volume</th>
+                            <th>Date Received</th>
+                            <th>Status</th>
+                            <th>Entered By</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in periodicals %}
+                        <tr>
+                            <td>{{ record['id'] }}</td>
+                            <td><span class="badge badge-{{ 'newspaper' if record['type'] == 'Newspaper' else 'periodical' }}">{{ record['type'] }}</span></td>
+                            <td class="title-cell">{{ record['title'] }}</td>
+                            <td>{{ record['vendor'] }}</td>
+                            <td>{{ record['issue_volume'] or '—' }}</td>
+                            <td>{{ record['date_received'] }}</td>
+                            <td><span class="status status-{{ 'received' if record['status'] == 'Received' else 'not-received' }}">{{ record['status'] }}</span></td>
+                            <td>{{ record['entered_by'] }}</td>
+                            <td class="notes-cell">{{ record['notes'] or '—' }}</td>
+                            <td class="actions">
+                                <a href="#" class="btn-small btn-edit">Edit</a>
+                                <a href="#" class="btn-small btn-delete">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="no-records">No records found. Add your first periodical!</p>
+            {% endif %}
+        </main>
+
+        <footer>
+            <p>Built as a proof-of-concept for library workflow modernization</p>
+        </footer>
+    </div>
+</body>
+</html>

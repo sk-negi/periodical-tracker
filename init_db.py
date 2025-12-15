@@ -12,7 +12,7 @@ def init_database():
             title TEXT NOT NULL,
             vendor TEXT NOT NULL,
             issue_volume TEXT,
-            date_received DATE NOT NULL,
+            date_received DATE,
             status TEXT NOT NULL,
             entered_by TEXT NOT NULL,
             notes TEXT,

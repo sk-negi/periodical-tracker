@@ -8,34 +8,134 @@ Many libraries still rely on Excel spreadsheets to track incoming newspapers and
 
 ## Features
 
-- Add new periodical/newspaper records
-- View all records in a sortable table
+- View all periodical/newspaper records in a sortable table
+- Clean, intuitive interface with color-coded badges
+- Status tracking (Received/Not Received)
+- Mobile-friendly responsive design
+- SQLite database for reliable data storage
+
+### Planned Features (In Development)
+- Add new records via web form
 - Edit existing records
+- Delete records
 - Export data to CSV
-- Mobile-friendly interface
 
 ## Tech Stack
 
-- **Backend:** Python + Flask
-- **Database:** SQLite
-- **Frontend:** HTML templates (Jinja2) + CSS
-- **Export:** CSV
+- **Backend:** Python 3.10 + Flask
+- **Database:** SQLite3
+- **Frontend:** HTML5 (Jinja2 templates) + CSS3
+- **Export:** CSV (planned)
 
-## Status
+## Data Model
 
-🚧 **In Development** - This is a proof-of-concept project.
+The application tracks the following information for each periodical/newspaper:
 
-## Data Fields
+- **Type:** Newspaper or Periodical
+- **Title:** Name of the publication
+- **Vendor:** Supplier/publisher name
+- **Issue/Volume:** Issue number or volume (optional, blank for newspapers)
+- **Date Received:** Date the item was received (NULL for "Not Received" items)
+- **Status:** Received or Not Received
+- **Entered By:** Staff member who logged the record
+- **Notes:** Optional notes (e.g., "Cover damaged", "Vendor notified")
 
-- Type (Newspaper/Periodical)
-- Title
-- Vendor
-- Issue/Volume (optional)
-- Date Received
-- Status (Received/Not Received)
-- Entered By
-- Notes (optional)
+## Design Decisions
+
+### Date Handling
+The "Date Received" field is optional and only populated when status is "Received". This reflects real-world library workflows where items may be logged before arrival (for tracking missing issues) and updated upon receipt.
+
+### Manual Entry vs. Subscriptions
+The current implementation uses manual entry for each record. This provides maximum flexibility for tracking irregular items and varying delivery schedules.
+
+## Installation & Setup
+
+1. **Clone the repository:**
+```bash
+   git clone https://github.com/sk-negi/periodical-tracker.git
+   cd periodical-tracker
+```
+
+2. **Install dependencies:**
+```bash
+   pip3 install flask
+```
+
+3. **Initialize the database:**
+```bash
+   python3 init_db.py
+```
+
+4. **Add sample data (optional):**
+```bash
+   python3 add_sample_data.py
+```
+
+5. **Run the application:**
+```bash
+   python3 app.py
+```
+
+6. **Open in browser:**
+   Navigate to `http://localhost:5000`
+
+## Project Status
+
+🚧 **In Development** - This is a proof-of-concept project currently in Phase 4 of development.
+
+**Completed:**
+- ✅ Database schema and initialization
+- ✅ Sample data generation
+- ✅ Flask application structure
+- ✅ Homepage with table display
+- ✅ Professional UI with responsive design
+
+**In Progress:**
+- 🔄 Add record form
+- 🔄 Edit functionality
+- 🔄 Delete functionality
+- 🔄 CSV export
+
+## Future Enhancements
+
+If this were to be developed into a production system, the following features would improve efficiency:
+
+- **Subscription Management:** Pre-configure recurring subscriptions with expected delivery schedules
+- **Quick Check-in Interface:** Daily checklist view for rapid status updates of expected items
+- **Automated Reminders:** Email notifications for missing periodicals
+- **Advanced Filtering:** Search by date range, vendor, or status
+- **User Authentication:** Role-based access control for staff members
+- **Barcode Scanning:** Mobile barcode scanning for quick item identification
+- **Reports & Analytics:** Delivery statistics, vendor performance metrics
+- **Integration:** Connect with library ILS (Integrated Library System)
+
+## Limitations
+
+This is a proof-of-concept project with the following intentional limitations:
+
+- No user authentication (any user can add/edit/delete records)
+- Single-user local deployment (not designed for concurrent multi-user access)
+- No cloud hosting or remote access
+- Sample data only (not for production use with real library data)
+- Basic validation (assumes clean data entry)
+
+## Why This Project?
+
+This project demonstrates:
+- Understanding of library workflows and pain points
+- Ability to translate real-world problems into technical solutions
+- Full-stack web development skills (backend, database, frontend)
+- Clean, maintainable code with proper documentation
+- Thoughtful UI/UX design for end users
+- Project scoping and completion discipline
 
 ## Author
 
-Built as a portfolio project to demonstrate library technology solutions.
+Built by **Saksham Negi** as a portfolio project to demonstrate library technology solutions.
+
+**Contact:** sakshamn73@gmail.com  
+**GitHub:** [sk-negi](https://github.com/sk-negi)
+
+## License
+
+This project is open source and available for educational purposes.
