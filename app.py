@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
 from datetime import datetime
+import csv
+from io import StringIO
+from flask import Flask, render_template, request, redirect, url_for, make_response
 
 app = Flask(__name__)
 
@@ -113,6 +116,44 @@ def delete_record(id):
     conn.close()
     
     return redirect(url_for('index'))
+
+# Export to CSV
+@app.route('/export')
+def export_csv():
+    """Export all periodical records to CSV."""
+    conn = get_db_connection()
+    periodicals = conn.execute('SELECT * FROM periodicals ORDER BY id DESC').fetchall()
+    conn.close()
+    
+    # Create CSV in memory
+    output = StringIO()
+    writer = csv.writer(output)
+    
+    # Write header row
+    writer.writerow(['ID', 'Type', 'Title', 'Vendor', 'Issue/Volume', 'Date Received', 'Status', 'Entered By', 'Notes', 'Created At'])
+    
+    # Write data rows
+    for record in periodicals:
+        writer.writerow([
+            record['id'],
+            record['type'],
+            record['title'],
+            record['vendor'],
+            record['issue_volume'] or '',
+            record['date_received'] or '',
+            record['status'],
+            record['entered_by'],
+            record['notes'] or '',
+            record['created_at']
+        ])
+    
+    # Create response with CSV file
+    output.seek(0)
+    response = make_response(output.getvalue())
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = 'attachment; filename=periodical_records.csv'
+    
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
