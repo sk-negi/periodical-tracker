@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Record - Periodical Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Periodical Tracker</h1>
+            <p>Edit Record #{{ record['id'] }}</p>
+        </header>
+
+        <nav>
+            <a href="/" class="btn btn-primary">← Back to All Records</a>
+        </nav>
+
+        <main>
+            <div class="form-container">
+                <h2>Edit: {{ record['title'] }}</h2>
+                
+                <form method="POST" action="/edit/{{ record['id'] }}">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="type">Type *</label>
+                            <select name="type" id="type" required onchange="toggleIssueVolume()">
+                                <option value="Newspaper" {% if record['type'] == 'Newspaper' %}selected{% endif %}>Newspaper</option>
+                                <option value="Periodical" {% if record['type'] == 'Periodical' %}selected{% endif %}>Periodical</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status *</label>
+                            <select name="status" id="status" required onchange="toggleDateField()">
+                                <option value="Received" {% if record['status'] == 'Received' %}selected{% endif %}>Received</option>
+                                <option value="Not Received" {% if record['status'] == 'Not Received' %}selected{% endif %}>Not Received</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title">Title *</label>
+                        <input type="text" name="title" id="title" required value="{{ record['title'] }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vendor">Vendor *</label>
+                        <input type="text" name="vendor" id="vendor" required value="{{ record['vendor'] }}">
+                    </div>
+
+                    <div class="form-group" id="issueVolumeGroup">
+                        <label for="issue_volume">Issue/Volume <span class="optional">(Optional)</span></label>
+                        <input type="text" name="issue_volume" id="issue_volume" value="{{ record['issue_volume'] or '' }}">
+                    </div>
+
+                    <div class="form-group" id="dateGroup">
+                        <label for="date_received">Date Received</label>
+                        <input type="date" name="date_received" id="date_received" value="{{ record['date_received'] or '' }}">
+                        <small class="form-help">Auto-fills with today's date when status is "Received"</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="entered_by">Entered By *</label>
+                        <select name="entered_by" id="entered_by" required>
+                            <option value="Priya Sharma" {% if record['entered_by'] == 'Priya Sharma' %}selected{% endif %}>Priya Sharma</option>
+                            <option value="Rajesh Kumar" {% if record['entered_by'] == 'Rajesh Kumar' %}selected{% endif %}>Rajesh Kumar</option>
+                            <option value="Anjali Verma" {% if record['entered_by'] == 'Anjali Verma' %}selected{% endif %}>Anjali Verma</option>
+                            <option value="Amit Patel" {% if record['entered_by'] == 'Amit Patel' %}selected{% endif %}>Amit Patel</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes <span class="optional">(Optional)</span></label>
+                        <textarea name="notes" id="notes" rows="3">{{ record['notes'] or '' }}</textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success">✓ Update Record</button>
+                        <a href="/" class="btn btn-secondary">Cancel</a>
+                        <button type="button" class="btn btn-delete" onclick="confirmDelete()">🗑 Delete Record</button>
+                    </div>
+                </form>
+
+                <!-- Hidden delete form -->
+                <form id="deleteForm" method="POST" action="/delete/{{ record['id'] }}" style="display: none;">
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <p>Built as a proof-of-concept for library workflow modernization</p>
+        </footer>
+    </div>
+
+    <script>
+        // Auto-fill today's date and toggle date field based on status
+        function toggleDateField() {
+            const status = document.getElementById('status').value;
+            const dateInput = document.getElementById('date_received');
+            const dateGroup = document.getElementById('dateGroup');
+            
+            if (status === 'Received') {
+                dateGroup.style.display = 'block';
+                // Auto-fill with today's date if empty
+                if (!dateInput.value) {
+                    const today = new Date().toISOString().split('T')[0];
+                    dateInput.value = today;
+                }
+            } else if (status === 'Not Received') {
+                dateGroup.style.display = 'none';
+                dateInput.value = ''; // Clear date
+            }
+        }
+
+        // Show/hide issue/volume hint based on type
+        function toggleIssueVolume() {
+            const type = document.getElementById('type').value;
+            const issueVolumeGroup = document.getElementById('issueVolumeGroup');
+            
+            if (type === 'Newspaper') {
+                issueVolumeGroup.style.opacity = '0.6';
+            } else {
+                issueVolumeGroup.style.opacity = '1';
+            }
+        }
+
+        // Confirm before deleting
+        function confirmDelete() {
+            if (confirm('Are you sure you want to delete this record? This action cannot be undone.')) {
+                document.getElementById('deleteForm').submit();
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleDateField();
+            toggleIssueVolume();
+        });
+    </script>
+</body>
+</html>

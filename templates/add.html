@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Record - Periodical Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Periodical Tracker</h1>
+            <p>Add New Record</p>
+        </header>
+
+        <nav>
+            <a href="/" class="btn btn-primary">← Back to All Records</a>
+        </nav>
+
+        <main>
+            <div class="form-container">
+                <h2>Add New Periodical/Newspaper</h2>
+                
+                <form method="POST" action="/add" id="addForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="type">Type *</label>
+                            <select name="type" id="type" required onchange="toggleIssueVolume()">
+                                <option value="">-- Select Type --</option>
+                                <option value="Newspaper">Newspaper</option>
+                                <option value="Periodical">Periodical</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="status">Status *</label>
+                            <select name="status" id="status" required onchange="toggleDateField()">
+                                <option value="">-- Select Status --</option>
+                                <option value="Received">Received</option>
+                                <option value="Not Received">Not Received</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title">Title *</label>
+                        <input type="text" name="title" id="title" required placeholder="e.g., The Hindu, Nature Magazine">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="vendor">Vendor *</label>
+                        <input type="text" name="vendor" id="vendor" required placeholder="e.g., Hindu Group, Springer Nature">
+                    </div>
+
+                    <div class="form-group" id="issueVolumeGroup">
+                        <label for="issue_volume">Issue/Volume <span class="optional">(Optional - leave blank for newspapers)</span></label>
+                        <input type="text" name="issue_volume" id="issue_volume" placeholder="e.g., Vol. 45, Issue 12">
+                    </div>
+
+                    <div class="form-group" id="dateGroup">
+                        <label for="date_received">Date Received</label>
+                        <input type="date" name="date_received" id="date_received">
+                        <small class="form-help">Auto-fills with today's date when status is "Received"</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="entered_by">Entered By *</label>
+                        <select name="entered_by" id="entered_by" required>
+                            <option value="">-- Select Staff Member --</option>
+                            <option value="Priya Sharma">Priya Sharma</option>
+                            <option value="Rajesh Kumar">Rajesh Kumar</option>
+                            <option value="Anjali Verma">Anjali Verma</option>
+                            <option value="Amit Patel">Amit Patel</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes <span class="optional">(Optional)</span></label>
+                        <textarea name="notes" id="notes" rows="3" placeholder="e.g., Cover damaged, Vendor notified of delay"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success">✓ Save Record</button>
+                        <a href="/" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <p>Built as a proof-of-concept for library workflow modernization</p>
+        </footer>
+    </div>
+
+    <script>
+        // Auto-fill today's date and toggle date field based on status
+        function toggleDateField() {
+            const status = document.getElementById('status').value;
+            const dateInput = document.getElementById('date_received');
+            const dateGroup = document.getElementById('dateGroup');
+            
+            if (status === 'Received') {
+                dateGroup.style.display = 'block';
+                // Auto-fill with today's date if empty
+                if (!dateInput.value) {
+                    const today = new Date().toISOString().split('T')[0];
+                    dateInput.value = today;
+                }
+                dateInput.required = false; // Optional - will use server default if empty
+            } else if (status === 'Not Received') {
+                dateGroup.style.display = 'none';
+                dateInput.value = ''; // Clear date
+                dateInput.required = false;
+            }
+        }
+
+        // Show/hide issue/volume hint based on type
+        function toggleIssueVolume() {
+            const type = document.getElementById('type').value;
+            const issueVolumeGroup = document.getElementById('issueVolumeGroup');
+            
+            if (type === 'Newspaper') {
+                issueVolumeGroup.style.opacity = '0.6';
+            } else {
+                issueVolumeGroup.style.opacity = '1';
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleDateField();
+            toggleIssueVolume();
+        });
+    </script>
+</body>
+</html>
