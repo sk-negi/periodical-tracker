@@ -79,6 +79,28 @@ The current implementation uses manual entry for each record. This provides maxi
 6. **Open in browser:**
    Navigate to `http://localhost:5000`
 
+## Screenshots
+
+### Homepage - Records Table View
+![Homepage with all records displayed in a table](screenshots/homepage.png)
+
+*The main dashboard showing all periodical records with color-coded type badges, status indicators, and action buttons.*
+
+### Navigation and Interface
+![Clean, modern interface with gradient header](screenshots/interface.png)
+
+*Professional UI with intuitive navigation buttons for viewing, adding records, and exporting to CSV.*
+
+### Add New Record Form
+![Form for adding new periodical/newspaper records](screenshots/add_form.png)
+
+*Smart form with conditional fields - date field auto-fills when status is "Received" and hides for "Not Received" items.*
+
+### Edit Record Form
+![Edit existing records with pre-filled data](screenshots/edit_form.png)
+
+*Edit interface with all fields pre-populated, allowing updates and deletions with confirmation dialogs.*
+
 ## Project Status
 
 🚧 **In Development** - This is a proof-of-concept project currently in Phase 4 of development.
